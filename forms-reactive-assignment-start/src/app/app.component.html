@@ -1,0 +1,68 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div formGroupName="projectData">
+          <div class="form-group">
+            <label for="name">Project Name</label>
+            <input
+              type="text"
+              id="name"
+              formControlName="name"
+              class="form-control">
+              <span
+              *ngIf="!form.get('projectData.name').valid && form.get('projectData.name').touched && form.get('projectData.name').errors"
+              class="help-block">
+              <span *ngIf="form.get('projectData.name').errors['projectIsForbidden']">This project name is forbidden!</span>
+              <span *ngIf="form.get('projectData.name').errors['required']">This field is required!</span>
+            </span>
+          </div>
+          <div class="form-group">
+            <label for="status">Project Status</label>
+            <select
+              id="status"
+              class="form-control"
+              formControlName="status">
+              <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
+            </select>
+          </div>  
+        </div>
+        <div class="form-group">
+          <label for="email">Mail</label>
+          <input 
+            type="email"
+            id="email"
+            class="form-control"
+            formControlName="email">
+        </div>
+        <div formArrayName="tags">
+          <h4>Tags</h4>
+          <button
+            class="btn btn-default"
+            type="button"
+            (click)="onAddTag()">Add Tag</button>
+          <div
+            class="form-group"
+            *ngFor="let tagControl of form.get('tags').controls; let i = index">
+            <input type="text" class="form-control" [formControlName]="i">
+            <span *ngIf=" tagControl.errors && tagControl.errors['required']">This field is required!</span>
+          </div>
+        </div>
+        <div formArrayName="tags2">
+          <h4>Tags2</h4>
+          <button
+            class="btn btn-default"
+            type="button"
+            (click)="onAddTag2()">Add Tag</button>
+          <div
+            class="form-group"
+            *ngFor="let tagControl of form.get('tags2').controls; let i = index">
+            <input type="text" class="form-control" [formControlName]="i">
+            <span *ngIf=" tagControl.errors && tagControl.errors['required']">This field is required!</span>
+          </div>
+        </div>        
+        <button class="btn btn-primary" type="submit" [disabled]="!form.valid">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
